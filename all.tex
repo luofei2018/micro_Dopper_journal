@@ -50,6 +50,20 @@
 
 
 \documentclass[journal]{IEEEtran}
+\makeatletter
+\long\def\@makecaption#1#2{\ifx\@captype\@IEEEtablestring%
+\footnotesize\begin{center}{\normalfont\footnotesize #1}\\
+{\normalfont\footnotesize\scshape #2}\end{center}%
+\@IEEEtablecaptionsepspace
+\else
+\@IEEEfigurecaptionsepspace
+\setbox\@tempboxa\hbox{\normalfont\footnotesize {#1.}~~ #2}%
+\ifdim \wd\@tempboxa >\hsize%
+\setbox\@tempboxa\hbox{\normalfont\footnotesize {#1.}~~ }%
+\parbox[t]{\hsize}{\normalfont\footnotesize \noindent\unhbox\@tempboxa#2}%
+\else
+\hbox to\hsize{\normalfont\footnotesize\hfil\box\@tempboxa\hfil}\fi\fi}
+\makeatother
 %
 % If IEEEtran.cls has not been installed into the LaTeX system files,
 % manually specify the path to it like:
@@ -107,17 +121,18 @@
 
 
 
-
-
+\usepackage[inline]{enumitem}
+\usepackage[english]{babel}
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+\usepackage[pdftex]{graphicx}
+%\usepackage{caption}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
+\graphicspath{{image/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+ \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -128,7 +143,7 @@
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
   % \DeclareGraphicsExtensions{.eps}
-\fi
+ \fi
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
 % installed on most LaTeX systems. The latest version and documentation
@@ -155,7 +170,10 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage{amsmath}
+%\usepackage{mathtools} 
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{multirow}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics.
 %
@@ -173,7 +191,11 @@
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
+\usepackage{algorithm}
 %\usepackage{algorithmic}
+\usepackage[noend]{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm  
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm  
 % algorithmic.sty was written by Peter Williams and Rogerio Brito.
 % This package provides an algorithmic environment fo describing algorithms.
 % You can use the algorithmic environment in-text or within a figure
@@ -240,7 +262,7 @@
 
 % *** FLOAT PACKAGES ***
 %
-%\usepackage{fixltx2e}
+\usepackage{fixltx2e}
 % fixltx2e, the successor to the earlier fix2col.sty, was written by
 % Frank Mittelbach and David Carlisle. This package corrects a few problems
 % in the LaTeX2e kernel, the most notable of which is that in current
@@ -350,6 +372,7 @@
 
 
 \begin{document}
+
 %
 % paper title
 % Titles are generally capitalized except for words such as a, an, and, as,
@@ -357,7 +380,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Bare Demo of IEEEtran.cls\\ for IEEE Journals}
+\title{Human Activity Detection and Coarse-Localization Outdoors Using Micro-Doppler Signatures}
 %
 %
 % author names and IEEE memberships
@@ -369,14 +392,12 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
-        John~Doe,~\IEEEmembership{Fellow,~OSA,}
-        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
-\thanks{M. Shell was with the Department
-of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
-GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % stops a space
-\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+\author{Fei~Luo,
+		Stefan~Posland,
+        and~Eliane~Bodanese% <-this % stops a space
+\thanks{Manuscript revised September 22, 2018.}
+\thanks{F. Luo is with the School of Electronic Engineering and Computer Science, Queen Mary University of London, London, UK, E1 4NS  e-mail: f.luo@qmul.ac.uk.}% <-this % stops a space
+\thanks{The author sequence of this paper follows the “first-last-author-emphasis” norm (FLAE).}}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -399,8 +420,8 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 
 
 % The paper headers
-\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
-{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
+\markboth{Journal of IEEE Transactions on Geoscience and Remote Sensing,~Vol.~14, No.~23, September~2018}%
+{Shell \MakeLowercase{\textit{et al.}}: Human Activity Detection and Coarse-Localization Outdoors Using Micro-Doppler Signatures}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
 % 
@@ -432,12 +453,12 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
 \begin{abstract}
-The abstract goes here.
+\input{abstract}
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEE, IEEEtran, journal, \LaTeX, paper, template.
+Micro-Doppler, Machine Learning Techniques, CNN, human activity detection, coarse-grained localization, people counting.
 \end{IEEEkeywords}
 
 
@@ -473,25 +494,38 @@ IEEE, IEEEtran, journal, \LaTeX, paper, template.
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{his} demo file is intended to serve as a ``starter file''
-for IEEE journal papers produced under \LaTeX\ using
-IEEEtran.cls version 1.8b and later.
+
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
-I wish you the best of success.
+\input{Introduction}
 
-\hfill mds
- 
-\hfill August 26, 2015
+\section{Radar micro-Doppler}
+\input{radar_micro_Doppler}
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+\section{Experiments}
+\input{experiment}
+
+\section{Data Collection and preprocessing}
+\input{Data_collection}
+
+\section{Feature Extraction Using Two-Directional Two-Dimensional Principal Component Analysis}
+\input{Feature_extraction_using_2d2pca}
+
+\section{Machine learning models}
+\input{machine_learning}
+
+\section{Result analysis}
+\input{result}
+
+\section{Factors in micro-Doppler based classification}
+\input{factors}
+
+\section{Conclusion}
+\input{conclusion}
+
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
 
 
 % An example of a floating figure using the graphicx package.
@@ -591,12 +625,6 @@ Subsubsection text here.
 
 
 
-\section{Conclusion}
-The conclusion goes here.
-
-
-
-
 
 % if have a single appendix:
 %\appendix[Proof of the Zonklar Equations]
@@ -613,21 +641,12 @@ The conclusion goes here.
 %
 
 
-\appendices
-\section{Proof of the First Zonklar Equation}
-Appendix one text goes here.
-
-% you can choose not to have a title for an appendix
-% if you want by leaving the argument blank
-\section{}
-Appendix two text goes here.
-
 
 % use section* for acknowledgment
 \section*{Acknowledgment}
 
 
-The authors would like to thank...
+This research was funded in part by a China Scholarship Council (CSC) and QMUL PhD Grant. The authors would also like to thank Mahadi Hasan for assisting the first set up of the radar devices and to all participants who joined the experiments.
 
 
 % Can use something like this to put references on a page
@@ -660,13 +679,13 @@ The authors would like to thank...
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
+% \begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+% \bibitem{IEEEhowto:kopka}
+% H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
-\end{thebibliography}
+% \end{thebibliography}
 
 % biography section
 % 
@@ -679,22 +698,26 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-\begin{IEEEbiography}{Michael Shell}
-Biography text here.
+\bibliographystyle{IEEEtran}
+\bibliography{bibtex/bib/Biblio}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fei}}]{Fei Luo}
+received the B.Sc. degree in Geographic Information System for Jiangxi University of Science and Technology, Jiangxi, China, in 2008, and the M.sc. degree in Surveying and Mapping from Wuhan University, Wuhan, China, in 2016. He is currently pursuing the Ph.D. degree in Electronic Engineering in the School of Electronic Engineering and Computer Science. His research interests include Geographic information system, human activity detection, Machine learning.
 \end{IEEEbiography}
 
-% if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{John Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
 
 % insert where needed to balance the two columns on the last page with
 % biographies
 %\newpage
 
-\begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{stefan}}]{Stefan Poslad}
+received the B.Sc. degree in physics from the University of Southampton, Southampton, U.K., the M.Sc. degree in medical physics from the University of Aberdeen, Aberdeen, U.K., and the Ph.D. degree from Newcastle University, Newcastle upon Tyne, U.K., in 1987, focusing on artiﬁcial lung sensing during open heart surgery. Since 2000, he has been a Principal Investigator of 12 funded collaborative research projects, and has received funding from the U.K. Research Council, Europe, Norway, the U.S., and from the industry.
+\end{IEEEbiography}
+
+% if you will not have a photo at all:
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{eliane}}]{Elaine Bodanese}
+MSc, Ph.D., MIEEE, joined Queen Mary University of London in 2003. She is a senior lecturer in the School of Electronic Engineering and Computer Science and a member of the Networks Research Group. Dr Bodanese received her Electrical Engineering degree from the Federal University of Parana (Brazil) and her M.Sc. degree in Electrical Engineering from the Federal University of Santa Catarina (Brazil). In 2000, she received her Ph.D. in Electronic Engineering from Queen Mary, University of London (UK). Her research interests include next generation wireless systems, dynamic radio resource management for heterogeneous wireless environments, communication support for emergencies, cooperative communications, ad hoc and sensor networks, the Internet of Things, and wireless localization.
+\end{IEEEbiography}
 
 % You can push biographies down or up by placing
 % a \vfill before or after them. The appropriate
@@ -706,8 +729,7 @@ Biography text here.
 
 % Can be used to pull up biographies so that the bottom of the last one
 % is flush with the other column.
-%\enlargethispage{-5in}
-
+\enlargethispage{0in}
 
 
 % that's all folks
